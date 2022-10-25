@@ -8,32 +8,31 @@ const getAll = async () => {
 const createUser = async (user) => {
     const { nome, sobrenome, email, status } = user;
 
-    //Valida campos obrigatorios
-    if (nome === '' || nome === null) {
-        return {errorValidação: 'O nome é obrigatório'};
-    };
-
-    if (email === '' || email === null) {
-        return {errorValidação: 'O email é obrigatório'};
-    };
-
-    //Verifica se o usuário já existe
-    let query = `SELECT ID FROM users where email = ${email}`;
-
-    if (query) {
-        return {errorValidação: 'Email já cadastrado.'};
-    };
-
-    //Se passar por todas verificações, faz o insert.
     const dateUTC = new Date(Date.now()).toUTCString();
-    query = 'INSERT INTO users(nome, sobrenome, email, status, createdAt) VALUES (?, ?, ?, ?, ?)';
+    const query = 'INSERT INTO users(nome, sobrenome, email, status, createdAt) VALUES (?, ?, ?, ?, ?)';
 
     const [createdUser] = await conn.execute(query, [nome, sobrenome, email, 1, dateUTC]);
 
     return {insertID: createdUser.insertId};
 };
 
+const deleteUser = async (id) => {
+    const removedUser = await conn.execute('DELETE FROM users WHERE id = ?', [id]);
+    return removedUser;
+};
+
+const updateUser = async (id, user) => {
+    const { nome, sobrenome, status } = user;
+
+    const query = 'UPDATE users SET nome = ?, sobrenome = ?, status = ? WHERE id = ?';
+
+    const updatedUser = await conn.execute(query, [nome, sobrenome, status, id]);
+    return updatedUser;
+};
+
 module.exports = {
     getAll,
-    createUser
+    createUser,
+    deleteUser,
+    updateUser
 };
