@@ -14,6 +14,15 @@ Basically it will be possible to register users, log in, register tasks and coun
     sudo docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
     
     necessary to create the database and the appropriate tables. Run the following SQL:
+    
+## environment settings
+ 
+    Don't forget to create an .env inside the backend folder with the following settings:
+    
+    MYSQL_HOST=YOUR_HOST
+    MYSQL_USER=YOUR_USER
+    MYSQL_PASSWORD=YOUR_PASSWD
+    MYSQL_DATABASE=todolist
 
 ## Run the app
 
