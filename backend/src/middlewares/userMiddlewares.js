@@ -15,7 +15,7 @@ const validateFieldName = (req, res, next) => {
     next();
 };
 
-const validateFieldEmail = (req, res, next) => {
+const validateFieldEmail = async (req, res, next) => {
     const { body } = req;
 
     if ( body.email === undefined) {
@@ -39,8 +39,9 @@ const validateFieldEmail = (req, res, next) => {
 
     //Verifica se o usuário já existe
     const query = `SELECT ID FROM users where email = '${body.email}'`;
+    const result = await conn.execute(query);
 
-    if (conn.execute(query)) {
+    if (result[0].length > 0) {
         return res.status(400).json({message: 'Email já cadastrado.'});
     };
 

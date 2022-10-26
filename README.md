@@ -38,7 +38,7 @@ The API that runs on the backend is described below
 
 `GET /users`
 
-    curl -i -H 'Accept: application/json' http://localhost:7000/users
+    curl -i -H 'Accept: application/json' http://localhost:3333/users
 
 ### Response
 
@@ -58,7 +58,7 @@ The API that runs on the backend is described below
 
 `POST /users`
 
-    curl -i -H 'Accept: application/json' -d 'name=Foo&status=new' http://localhost:7000/thing
+    curl -i -H 'Accept: application/json' -d 'name=Foo&status=new' http://localhost:3333/thing
 
 ### Response
 

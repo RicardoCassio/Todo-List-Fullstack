@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const conn = require('./connection');
 
 const getAll = async () => {
@@ -6,12 +7,15 @@ const getAll = async () => {
 };
 
 const createUser = async (user) => {
-    const { nome, sobrenome, email, status } = user;
+    const { nome, sobrenome, email, password, status } = user;
 
     const dateUTC = new Date(Date.now()).toUTCString();
-    const query = 'INSERT INTO users(nome, sobrenome, email, status, createdAt) VALUES (?, ?, ?, ?, ?)';
+    const query = 'INSERT INTO users(nome, sobrenome, email, password, status, createdAt) VALUES (?, ?, ?, ?, ?, ?)';
 
-    const [createdUser] = await conn.execute(query, [nome, sobrenome, email, 1, dateUTC]);
+    const password_salt = bcrypt.genSaltSync(10);
+    const password_hash = bcrypt.hashSync(password, password_salt);
+
+    const [createdUser] = await conn.execute(query, [nome, sobrenome, email, password_hash, 1, dateUTC]);
 
     return {insertID: createdUser.insertId};
 };
