@@ -1,4 +1,4 @@
-const conn = require('./connection');
+//const conn = require('./connection');
 
 const getAll = async () => {
     const [tasks] = await conn.execute('SELECT * FROM tasks');
